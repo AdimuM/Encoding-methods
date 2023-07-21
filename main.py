@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 df=pd.read_csv('/home/adimu/Downloads/bank+marketing/bank/bank.csv', sep=";")
@@ -25,11 +26,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 model = LogisticRegression()
 model.fit(X_train, y_train)
 print("Accuracy using label encoding: ")
-print(accuracy_score(y_test, model.predict(X_test)))
+print(classification_report(y_test, model.predict(X_test)))
 
 
 ## One hot encoding
-one_hot_encoded_data = pd.get_dummies(df, columns=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'poutcome'])
+one_hot_encoded_data = preprocessing.OneHotEncoder(df, columns=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'poutcome'])
 
 X = one_hot_encoded_data.drop("y", axis=1)
 y = one_hot_encoded_data["y"]
@@ -37,7 +38,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 model = LogisticRegression()
 model.fit(X_train, y_train)
 print("Accuracy using one hot encoding: ")
-print(accuracy_score(y_test, model.predict(X_test)))
+print(classification_report(y_test, model.predict(X_test)))
 
 ## Test-cases
 
